@@ -1,0 +1,31 @@
+{
+  "name": "mi-api",
+  "version": "1.0.0",
+  "description": "Backend del sistema de reservas InariGo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No hay pruebas configuradas\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.10.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.1",
+    "firebase-admin": "^13.9.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.22.2",
+    "nodemailer": "^8.0.6",
+    "qrcode": "^1.5.4",
+    "twilio": "^6.0.0",
+    "uuid": "^14.0.0"
+  }
+}

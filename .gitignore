@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+*.save
+
+*-firebase-adminsdk-*.json
+service-account*.json
+*.pem
+*.key
+
+backup.sql
+inarigo_backup.sql
