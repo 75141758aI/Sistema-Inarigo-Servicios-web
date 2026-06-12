@@ -2,71 +2,47 @@
 
 Backend del sistema de reservas **InariGo**, desarrollado con **Node.js**, **Express** y **MySQL**.
 
-El sistema permite administrar:
+El proyecto permite gestionar negocios de servicios, clientes, reservas, horarios, colaboradores, permisos, check-in mediante QR y notificaciones. Incluye accesos separados para **SuperAdmin**, **Administrador**, **Colaborador** y **Cliente**.
 
-* Clientes.
-* Negocios.
-* Servicios.
-* Reservas y turnos.
-* Administradores y colaboradores.
-* Horarios de atención.
-* Perfiles de clientes o mascotas.
-* Negocios favoritos.
-* Check-in mediante código QR.
-* Notificaciones por correo, WhatsApp y Firebase.
-* Configuración general de la plataforma.
-* Panel de SuperAdmin.
+> Este repositorio está preparado para pruebas locales. Los archivos SQL incluidos contienen únicamente datos ficticios.
 
 ---
 
-## 1. Tecnologías utilizadas
+## 1. Funciones principales
 
-* Node.js
-* Express
-* MySQL
-* JWT
-* bcrypt y bcryptjs
-* Firebase Admin
-* Cloudinary
-* Nodemailer
-* Twilio
-* QRCode
-* UUID
+- Registro e inicio de sesión de clientes.
+- Inicio de sesión de administradores, colaboradores y SuperAdmin.
+- Gestión de negocios, servicios y horarios.
+- Creación, confirmación, cancelación y finalización de reservas.
+- Generación de códigos QR para el check-in.
+- Gestión de clientes, perfiles, mascotas, direcciones y favoritos.
+- Administración de colaboradores y permisos.
+- Panel general del SuperAdmin.
+- Integración opcional con Cloudinary, Twilio, Gmail y Firebase.
 
 ---
 
-## 2. Requisitos previos
+## 2. Tecnologías
 
-Antes de instalar el proyecto, se necesita tener instalado:
-
-* Node.js 20 o superior.
-* npm.
-* MySQL Server.
-* MySQL Workbench, opcional.
-* Git, si se clonará desde GitHub.
-
-Para comprobar las versiones instaladas:
-
-```bash
-node --version
-npm --version
-mysql --version
-git --version
-```
-
-Se recomienda utilizar:
-
-```text
-Node.js 20 o superior
-MySQL 8 o superior
-```
+- Node.js 20 o superior.
+- Express.
+- MySQL 8.
+- JWT.
+- bcrypt y bcryptjs.
+- Firebase Admin.
+- Cloudinary.
+- Nodemailer.
+- Twilio.
+- QRCode.
+- UUID.
+- Docker y Docker Compose, opcionales.
 
 ---
 
 ## 3. Estructura del proyecto
 
 ```text
-backend-inarigo/
+Sistema-Inarigo-Servicios-web/
 ├── middleware/
 │   ├── auth.js
 │   ├── verificarAdmin.js
@@ -75,8 +51,8 @@ backend-inarigo/
 ├── routes/
 │   ├── admin_auth.js
 │   ├── admin_panel.js
-│   ├── auth_clientes.js
 │   ├── auth.js
+│   ├── auth_clientes.js
 │   ├── checkins.js
 │   ├── clientes.js
 │   ├── configuracion.js
@@ -85,8 +61,8 @@ backend-inarigo/
 │   ├── negocios.js
 │   ├── perfiles.js
 │   ├── soporte.js
-│   ├── superadmin_auth.js
 │   ├── superadmin.js
+│   ├── superadmin_auth.js
 │   ├── turnos.js
 │   └── upload.js
 │
@@ -98,47 +74,57 @@ backend-inarigo/
 │   ├── 01_estructura.sql
 │   └── 02_datos_demo.sql
 │
-├── public/
-│   └── checkin.html
-│
+├── .dockerignore
 ├── .env.example
 ├── .gitignore
 ├── db.js
+├── docker-compose.yml
+├── Dockerfile
 ├── package.json
 ├── package-lock.json
 ├── README.md
 └── server.js
 ```
 
----
-
-## 4. Clonar el repositorio
-
-Ejecutar:
-
-```bash
-git clone URL_DEL_REPOSITORIO
-```
-
-Luego ingresar a la carpeta del proyecto:
-
-```bash
-cd backend-inarigo
-```
-
-Reemplazar `URL_DEL_REPOSITORIO` por la dirección real del repositorio de GitHub.
-
-Ejemplo:
-
-```bash
-git clone https://github.com/usuario/backend-inarigo.git
-```
+La carpeta `public/` es opcional. Solo es necesaria si el mismo backend servirá una página como `checkin.html`.
 
 ---
 
-## 5. Instalar dependencias
+# PARTE A: EJECUCIÓN LOCAL SIN DOCKER
 
-Como el proyecto incluye `package-lock.json`, se recomienda ejecutar:
+## 4. Requisitos previos
+
+Instalar:
+
+- Node.js 20 o superior.
+- npm.
+- MySQL Server 8.
+- Git.
+- MySQL Workbench, opcional.
+
+Comprobar las versiones:
+
+```bash
+node --version
+npm --version
+mysql --version
+git --version
+```
+
+---
+
+## 5. Clonar el repositorio
+
+```bash
+git clone https://github.com/75141758aI/Sistema-Inarigo-Servicios-web.git
+cd Sistema-Inarigo-Servicios-web
+```
+
+---
+
+## 6. Instalar las dependencias
+
+Se recomienda:
 
 ```bash
 npm ci
@@ -150,55 +136,31 @@ También se puede utilizar:
 npm install
 ```
 
-Esto instalará todas las dependencias necesarias dentro de la carpeta:
-
-```text
-node_modules/
-```
-
-La carpeta `node_modules` no se incluye en GitHub porque se genera automáticamente.
+La carpeta `node_modules/` se generará automáticamente y no debe subirse a GitHub.
 
 ---
 
-## 6. Crear el archivo `.env`
+## 7. Crear el archivo `.env`
 
-El repositorio incluye:
-
-```text
-.env.example
-```
-
-Este archivo contiene solamente los nombres de las variables necesarias, sin contraseñas ni claves privadas.
-
-### En Windows CMD
-
-```cmd
-copy .env.example .env
-```
-
-### En Windows PowerShell
+### Windows PowerShell
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-### En Linux o macOS
+### Windows CMD
+
+```cmd
+copy .env.example .env
+```
+
+### Linux o macOS
 
 ```bash
 cp .env.example .env
 ```
 
-Después de copiarlo, debe existir este archivo:
-
-```text
-backend-inarigo/.env
-```
-
----
-
-## 7. Configurar las variables de entorno
-
-Abrir el archivo `.env` y configurar como mínimo la conexión con MySQL:
+Después, abrir `.env` y configurar al menos:
 
 ```env
 PORT=3000
@@ -214,129 +176,87 @@ JWT_SECRET=CAMBIAR_POR_UNA_CLAVE_SEGURA
 JWT_EXPIRES=30d
 ```
 
-Ejemplo con contraseña de MySQL:
+Ejemplo si MySQL tiene contraseña:
 
 ```env
-DB_HOST=localhost
-DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=mi_contrasena_mysql
+DB_PASSWORD=MiClaveDeMySQL
 DB_NAME=sistema_qr
 ```
 
-El archivo `.env` no debe subirse a GitHub porque puede contener credenciales privadas.
+El archivo `.env` contiene configuración privada y **no debe subirse a GitHub**.
 
 ---
 
-## 8. Servicios externos opcionales
+# 8. Base de datos
 
-El backend también puede utilizar Cloudinary, Twilio, Gmail y Firebase.
+La base de datos utilizada por el proyecto se llama:
 
-Estas configuraciones son opcionales para las pruebas principales del sistema.
-
-### Cloudinary
-
-Permite subir fotos de perfil y logos de negocios.
-
-```env
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+```text
+sistema_qr
 ```
 
-Sin estas variables, el sistema continuará funcionando, pero las rutas de subida de imágenes estarán desactivadas.
-
-### Twilio WhatsApp
-
-Permite enviar mensajes de WhatsApp relacionados con las reservas.
-
-```env
-TWILIO_ACCOUNT_SID=
-TWILIO_AUTH_TOKEN=
-TWILIO_WHATSAPP_FROM=
-```
-
-Sin estas variables, las reservas continuarán registrándose, pero no se enviarán mensajes de WhatsApp.
-
-### Gmail y correo electrónico
-
-Permite enviar confirmaciones y mensajes de soporte.
-
-```env
-GMAIL_USER=
-GMAIL_PASS=
-
-EMAIL_USER=
-EMAIL_PASS=
-EMAIL_DESTINO=
-```
-
-Sin estas variables, el sistema seguirá funcionando, pero no enviará correos.
-
-### Firebase
-
-Permite enviar notificaciones push a dispositivos móviles.
-
-```env
-GOOGLE_APPLICATION_CREDENTIALS=
-```
-
-La variable debe contener la ubicación local de una credencial de Firebase.
-
-Ejemplo:
-
-```env
-GOOGLE_APPLICATION_CREDENTIALS=C:/credenciales/firebase-admin.json
-```
-
-No se debe subir el archivo JSON de Firebase a GitHub.
-
----
-
-## 9. Crear la base de datos
-
-La carpeta `sql` contiene dos archivos:
+Los archivos se encuentran en:
 
 ```text
 sql/01_estructura.sql
 sql/02_datos_demo.sql
 ```
 
-### `01_estructura.sql`
+## 8.1 `01_estructura.sql`
 
-Crea:
+Este archivo:
 
-* Base de datos.
-* Tablas.
-* Relaciones.
-* Claves primarias.
-* Claves foráneas.
-* Índices.
-* Vistas.
+- Crea la base de datos `sistema_qr`.
+- Elimina las tablas y vistas anteriores si existen.
+- Crea las tablas, relaciones, índices y vistas.
+- No contiene clientes ni credenciales reales.
 
-### `02_datos_demo.sql`
+> **Advertencia:** al volver a ejecutar este archivo se elimina la estructura anterior y sus datos. Debe usarse únicamente en pruebas locales o en una base vacía.
 
-Inserta información ficticia para realizar pruebas locales.
+## 8.2 `02_datos_demo.sql`
+
+Este archivo:
+
+- Limpia los registros existentes.
+- Reinicia los contadores `AUTO_INCREMENT`.
+- Inserta cuentas, negocio, servicios, horarios, permisos y reservas ficticias.
+- Puede ejecutarse varias veces para restaurar el entorno de demostración.
+
+> **Advertencia:** este archivo elimina los registros existentes. No debe ejecutarse en producción.
+
+## 8.3 Tablas principales
+
+| Grupo | Tablas |
+|---|---|
+| Accesos | `clientes`, `usuarios`, `superadmins` |
+| Negocios | `negocios`, `servicios`, `horarios_negocio`, `horarios` |
+| Reservas | `turnos`, `checkins`, `notificaciones` |
+| Cliente | `perfiles_usuario`, `direcciones_cliente`, `favoritos` |
+| Permisos | `permisos_usuario` |
+| Configuración | `configuracion_sistema`, `opciones_perfil_negocio` |
+
+También se incluyen las vistas:
+
+```text
+v_turnos_hoy
+v_estadisticas_asistencia
+```
 
 ---
 
-## 10. Importar la base de datos desde terminal
+## 9. Importar la base de datos desde la terminal
 
-Ubicado en la carpeta principal del proyecto, ejecutar:
+Desde la raíz del proyecto:
 
 ```bash
 mysql -u root -p < sql/01_estructura.sql
-```
-
-Ingresar la contraseña de MySQL cuando sea solicitada.
-
-Después importar los datos de demostración:
-
-```bash
 mysql -u root -p sistema_qr < sql/02_datos_demo.sql
 ```
 
-Si el usuario root no tiene contraseña:
+Cuando se solicite, escribir la contraseña del usuario `root`.
+
+Si MySQL no tiene contraseña:
 
 ```bash
 mysql -u root < sql/01_estructura.sql
@@ -345,95 +265,149 @@ mysql -u root sistema_qr < sql/02_datos_demo.sql
 
 ---
 
-## 11. Importar la base de datos con MySQL Workbench
-
-También se puede importar utilizando MySQL Workbench.
+## 10. Importar con MySQL Workbench
 
 1. Abrir MySQL Workbench.
-2. Conectarse al servidor MySQL local.
-3. Seleccionar:
-
-```text
-File → Open SQL Script
-```
-
-4. Abrir:
-
-```text
-sql/01_estructura.sql
-```
-
-5. Ejecutar todo el script.
-6. Abrir después:
-
-```text
-sql/02_datos_demo.sql
-```
-
-7. Ejecutar el segundo script.
-
-Al finalizar debe existir la base de datos:
-
-```text
-sistema_qr
-```
+2. Conectarse al servidor local.
+3. Seleccionar **File → Open SQL Script**.
+4. Abrir `sql/01_estructura.sql`.
+5. Ejecutar todo el archivo.
+6. Abrir `sql/02_datos_demo.sql`.
+7. Ejecutar todo el archivo.
+8. Actualizar la lista de esquemas.
+9. Verificar que exista `sistema_qr`.
 
 ---
 
-## 12. Comprobar la conexión con MySQL
+# 11. Usuarios de demostración
 
-Verificar que el archivo `.env` tenga los mismos datos utilizados en MySQL:
-
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=sistema_qr
-```
-
-La conexión es administrada por:
+Todas las cuentas demo utilizan la misma contraseña:
 
 ```text
-db.js
+Demo1234
 ```
+
+| Tipo de usuario | Correo | Contraseña | Acceso |
+|---|---|---|---|
+| SuperAdmin | `superadmin@demo.com` | `Demo1234` | Administración general |
+| Administrador | `admin@demo.com` | `Demo1234` | Panel del negocio |
+| Colaborador | `colaborador@demo.com` | `Demo1234` | Panel según permisos |
+| Cliente | `cliente@demo.com` | `Demo1234` | Aplicación del cliente |
+
+Datos adicionales del cliente demo:
+
+```text
+Nombre: Cliente Demo
+Teléfono: 900000001
+```
+
+Las contraseñas no se guardan como texto dentro de MySQL. El archivo demo contiene hashes bcrypt compatibles con `Demo1234`.
 
 ---
 
-## 13. Iniciar el servidor
+## 12. Función de cada usuario
 
-Ejecutar:
+### SuperAdmin
+
+Puede:
+
+- Consultar el resumen general.
+- Crear y editar negocios.
+- Activar o suspender negocios.
+- Crear usuarios para los negocios.
+- Activar o desactivar usuarios.
+- Cambiar contraseñas.
+- Configurar datos generales de InariGo.
+
+Inicio de sesión:
+
+```text
+POST /api/superadmin-auth/login
+```
+
+### Administrador
+
+Gestiona únicamente su negocio:
+
+- Reservas.
+- Servicios.
+- Clientes.
+- Colaboradores.
+- Permisos.
+- Horarios.
+- Datos y configuración del negocio.
+- Check-in por QR.
+
+Inicio de sesión:
+
+```text
+POST /api/admin-auth/login
+```
+
+### Colaborador
+
+Ingresa por la misma ruta del administrador, pero solo puede usar las funciones que el administrador le haya permitido.
+
+Permisos disponibles:
+
+```text
+ver_dashboard
+ver_reservas
+crear_reservas
+aprobar_reservas
+rechazar_reservas
+escanear_qr
+finalizar_atencion
+ver_clientes
+```
+
+Inicio de sesión:
+
+```text
+POST /api/admin-auth/login
+```
+
+### Cliente
+
+Puede:
+
+- Registrarse e iniciar sesión.
+- Consultar negocios y servicios.
+- Crear y cancelar reservas.
+- Guardar perfiles o mascotas.
+- Guardar direcciones.
+- Marcar negocios como favoritos.
+- Consultar sus reservas y QR.
+
+Inicio de sesión:
+
+```text
+POST /api/auth/cliente/login
+```
+
+El login acepta correo o teléfono.
+
+---
+
+## 13. Iniciar el backend
 
 ```bash
 npm start
 ```
 
-El servidor mostrará un mensaje parecido a:
+El servidor debe mostrar:
 
 ```text
 Servidor corriendo en http://localhost:3000
 ```
 
----
-
-## 14. Comprobar que el backend funciona
-
-Abrir en el navegador:
+Comprobar en el navegador:
 
 ```text
 http://localhost:3000
 ```
 
-Debe mostrarse una respuesta parecida a:
-
-```json
-{
-  "ok": true,
-  "mensaje": "Backend de InariGo funcionando"
-}
-```
-
-También se puede probar la lista de negocios:
+También puede probarse:
 
 ```text
 http://localhost:3000/api/negocios
@@ -441,21 +415,242 @@ http://localhost:3000/api/negocios
 
 ---
 
-## 15. Conectar un frontend local
+## 14. Pruebas rápidas con PowerShell
 
-El frontend debe utilizar como dirección base de la API:
+### Login del cliente
 
-```text
-http://localhost:3000/api
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:3000/api/auth/cliente/login" `
+  -ContentType "application/json" `
+  -Body '{"email":"cliente@demo.com","password":"Demo1234"}'
 ```
 
-Ejemplo en JavaScript:
+### Login del administrador
+
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:3000/api/admin-auth/login" `
+  -ContentType "application/json" `
+  -Body '{"email":"admin@demo.com","password":"Demo1234"}'
+```
+
+### Login del colaborador
+
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:3000/api/admin-auth/login" `
+  -ContentType "application/json" `
+  -Body '{"email":"colaborador@demo.com","password":"Demo1234"}'
+```
+
+### Login del SuperAdmin
+
+```powershell
+Invoke-RestMethod `
+  -Method Post `
+  -Uri "http://localhost:3000/api/superadmin-auth/login" `
+  -ContentType "application/json" `
+  -Body '{"email":"superadmin@demo.com","password":"Demo1234"}'
+```
+
+---
+
+# PARTE B: EJECUCIÓN CON DOCKER
+
+## 15. Requisitos para Docker
+
+Instalar:
+
+- Docker Desktop en Windows o macOS.
+- Docker Engine y Docker Compose en Linux.
+
+Comprobar:
+
+```bash
+docker --version
+docker compose version
+```
+
+El proyecto utiliza:
+
+```text
+Dockerfile
+docker-compose.yml
+.dockerignore
+```
+
+---
+
+## 16. Iniciar todo con Docker
+
+Desde la raíz del repositorio:
+
+```bash
+docker compose up --build
+```
+
+Este comando:
+
+1. Construye la imagen del backend.
+2. Crea un contenedor MySQL 8.
+3. Crea automáticamente la base `sistema_qr`.
+4. Ejecuta `01_estructura.sql`.
+5. Ejecuta `02_datos_demo.sql`.
+6. Inicia el backend en el puerto 3000.
+
+Cuando termine:
+
+```text
+Backend: http://localhost:3000
+MySQL:   localhost:3307
+```
+
+El puerto MySQL del host es `3307` para evitar conflictos con una instalación local que ya utilice `3306`.
+
+Para ejecutar en segundo plano:
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+## 17. Consultar el estado de los contenedores
+
+```bash
+docker compose ps
+```
+
+Ver registros del backend:
+
+```bash
+docker compose logs -f app
+```
+
+Ver registros de MySQL:
+
+```bash
+docker compose logs -f db
+```
+
+Ver todos los registros:
+
+```bash
+docker compose logs -f
+```
+
+---
+
+## 18. Detener Docker
+
+Detener los contenedores sin borrar los datos:
+
+```bash
+docker compose down
+```
+
+Detener y borrar también la base de datos almacenada:
+
+```bash
+docker compose down -v
+```
+
+> Los scripts SQL de inicialización solo se ejecutan cuando el volumen de MySQL está vacío. Para restaurar completamente los datos demo, usar `docker compose down -v` y luego iniciar nuevamente.
+
+Restablecer la demostración:
+
+```bash
+docker compose down -v
+docker compose up -d --build
+```
+
+---
+
+## 19. Acceder a MySQL dentro de Docker
+
+```bash
+docker compose exec db mysql -u root -p
+```
+
+La contraseña predeterminada del entorno Docker es:
+
+```text
+inarigo_demo_2026
+```
+
+Después:
+
+```sql
+USE sistema_qr;
+SHOW TABLES;
+SELECT * FROM usuarios;
+SELECT * FROM clientes;
+```
+
+También se puede conectar desde MySQL Workbench:
+
+```text
+Host: 127.0.0.1
+Puerto: 3307
+Usuario: root
+Contraseña: inarigo_demo_2026
+Base de datos: sistema_qr
+```
+
+La contraseña anterior es únicamente para el entorno local de demostración. Debe cambiarse antes de cualquier despliegue real.
+
+---
+
+## 20. Variables opcionales en Docker
+
+El archivo `docker-compose.yml` permite utilizar variables del sistema o de un archivo `.env`.
+
+Ejemplo:
+
+```env
+MYSQL_ROOT_PASSWORD=otra_clave_local
+JWT_SECRET=otra_clave_jwt
+BASE_URL=http://localhost:3000
+```
+
+Servicios opcionales:
+
+```env
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_WHATSAPP_FROM=
+
+GMAIL_USER=
+GMAIL_PASS=
+
+EMAIL_USER=
+EMAIL_PASS=
+EMAIL_DESTINO=
+
+GOOGLE_APPLICATION_CREDENTIALS=
+```
+
+Si no se configuran, el backend continuará funcionando, pero no enviará mensajes, correos, notificaciones push ni subirá imágenes.
+
+---
+
+# 21. Conectar el frontend
+
+El frontend debe usar:
 
 ```js
 const API_URL = 'http://localhost:3000/api';
 ```
 
-Ejemplo de consulta:
+Ejemplo:
 
 ```js
 fetch(`${API_URL}/negocios`)
@@ -463,7 +658,7 @@ fetch(`${API_URL}/negocios`)
   .then(data => console.log(data));
 ```
 
-El backend tiene CORS habilitado, por lo que puede recibir solicitudes desde otro puerto local.
+El backend tiene CORS habilitado.
 
 Ejemplo:
 
@@ -474,47 +669,53 @@ Backend:  http://localhost:3000
 
 ---
 
-## 16. Configurar el enlace del QR
+## 22. Configurar el enlace del QR
 
-La variable:
+La variable `BASE_URL` determina dónde se encuentra la página de check-in.
+
+Si `checkin.html` se sirve desde el backend:
 
 ```env
 BASE_URL=http://localhost:3000
 ```
 
-se utiliza para crear los enlaces de check-in.
-
-El enlace generado tendrá una forma similar a:
-
-```text
-http://localhost:3000/checkin.html?token=TOKEN_DEL_TURNO
-```
-
-Para que funcione, debe existir:
+El archivo debe encontrarse en:
 
 ```text
 public/checkin.html
 ```
 
-Si el archivo `checkin.html` se encuentra en otro frontend local, se debe cambiar `BASE_URL`.
-
-Ejemplo:
+Si el docente utiliza su propio frontend en Live Server:
 
 ```env
 BASE_URL=http://127.0.0.1:5500
 ```
 
-Después de modificar `.env`, reiniciar el backend:
+El QR generado apuntará a:
+
+```text
+http://127.0.0.1:5500/checkin.html?token=TOKEN
+```
+
+Después de modificar `.env`, reiniciar el backend o los contenedores.
+
+Sin Docker:
 
 ```bash
 npm start
 ```
 
+Con Docker:
+
+```bash
+docker compose up -d --build
+```
+
 ---
 
-## 17. Endpoints principales
+# 23. Endpoints principales
 
-### Autenticación de clientes
+## Autenticación
 
 ```text
 POST /api/auth/cliente/registro
@@ -522,33 +723,24 @@ POST /api/auth/cliente/login
 POST /api/auth/cliente/google
 POST /api/auth/cliente/crear-password
 GET  /api/auth/cliente/perfil
-```
 
-### Autenticación de administradores
-
-```text
 POST /api/admin-auth/login
-```
-
-### Autenticación de SuperAdmin
-
-```text
 POST /api/superadmin-auth/login
 ```
 
-### Negocios
+## Negocios
 
 ```text
 GET /api/negocios
-GET /api/negocios/buscar
-GET /api/negocios/cerca
+GET /api/negocios/buscar?q=texto
+GET /api/negocios/cerca?lat=valor&lng=valor&radio_km=10
 GET /api/negocios/:id
 GET /api/negocios/:id/servicios
 GET /api/negocios/:id/horarios
 GET /api/negocios/:id/colaboradores
 ```
 
-### Turnos y reservas
+## Reservas
 
 ```text
 GET   /api/turnos/hoy
@@ -563,51 +755,39 @@ PATCH /api/turnos/aprobar/:id
 PATCH /api/turnos/rechazar/:id
 ```
 
-### Check-in
+## Check-in
 
 ```text
 POST /api/checkins/:qr_token
 ```
 
-### Clientes
+## Cliente
 
 ```text
-GET  /api/clientes
-GET  /api/clientes/telefono/:telefono
-GET  /api/clientes/:id/turnos
-POST /api/clientes
-PUT  /api/clientes/:id
-```
+GET    /api/clientes
+GET    /api/clientes/telefono/:telefono
+GET    /api/clientes/:id/turnos
+POST   /api/clientes
+PUT    /api/clientes/:id
 
-### Perfiles
-
-```text
 GET    /api/perfiles
 GET    /api/perfiles/:tipo
 POST   /api/perfiles
 PUT    /api/perfiles/:id
 DELETE /api/perfiles/:id
-```
 
-### Favoritos
-
-```text
 GET    /api/favoritos
 POST   /api/favoritos/:negocioId
 DELETE /api/favoritos/:negocioId
 GET    /api/favoritos/check/:negocioId
-```
 
-### Direcciones
-
-```text
 GET    /api/direcciones/cliente/:clienteId
 POST   /api/direcciones
 PUT    /api/direcciones/:id/principal
 DELETE /api/direcciones/:id
 ```
 
-### Panel administrativo
+## Panel administrativo
 
 ```text
 GET   /api/admin-panel/negocios/:negocio_id/dashboard
@@ -623,30 +803,36 @@ PATCH /api/admin-panel/reservas/:id/rechazar
 PATCH /api/admin-panel/reservas/:id/completar
 ```
 
-### SuperAdmin
+## SuperAdmin
 
 ```text
 GET   /api/superadmin/overview
 GET   /api/superadmin/negocios
+GET   /api/superadmin/negocios/:id
 POST  /api/superadmin/negocios
+PUT   /api/superadmin/negocios/:id
+PATCH /api/superadmin/negocios/:id/estado
+
 GET   /api/superadmin/usuarios
+POST  /api/superadmin/negocios/:negocio_id/usuarios
+PATCH /api/superadmin/usuarios/:id/estado
+PATCH /api/superadmin/usuarios/:id/password
+
 GET   /api/superadmin/ajustes
 PUT   /api/superadmin/ajustes
-PATCH /api/superadmin/negocios/:id/estado
-PATCH /api/superadmin/usuarios/:id/estado
 ```
 
 ---
 
-## 18. Autenticación con JWT
+## 24. Autenticación JWT
 
-Las rutas protegidas necesitan enviar el token mediante el encabezado:
+Las rutas protegidas esperan:
 
 ```text
 Authorization: Bearer TOKEN
 ```
 
-Ejemplo con `fetch`:
+Ejemplo:
 
 ```js
 fetch('http://localhost:3000/api/perfiles', {
@@ -656,244 +842,112 @@ fetch('http://localhost:3000/api/perfiles', {
 });
 ```
 
-Ejemplo en Postman:
+En Postman:
 
 ```text
 Authorization
 Type: Bearer Token
-Token: TOKEN_GENERADO_AL_INICIAR_SESION
+Token: TOKEN_GENERADO_EN_EL_LOGIN
 ```
 
 ---
 
-## 19. Credenciales de prueba
+## 25. Servicios externos opcionales
 
-Las credenciales se encuentran definidas dentro de:
+| Servicio | Obligatorio | Función |
+|---|---:|---|
+| MySQL | Sí | Almacenamiento principal |
+| Node.js | Sí sin Docker | Ejecución del backend |
+| Docker | No | Entorno automático |
+| JWT | Sí | Autenticación |
+| Cloudinary | No | Fotos y logos |
+| Twilio | No | WhatsApp |
+| Gmail | No | Correos |
+| Firebase | No | Notificaciones push |
 
-```text
-sql/02_datos_demo.sql
-```
-
-Completar esta sección con las cuentas demo incluidas en el archivo SQL.
-
-### SuperAdmin
-
-```text
-Correo: superadmin@demo.com
-Contraseña: CAMBIAR_POR_LA_CONTRASEÑA_DEMO
-```
-
-### Administrador de negocio
-
-```text
-Correo: administrador@demo.com
-Contraseña: CAMBIAR_POR_LA_CONTRASEÑA_DEMO
-```
-
-### Colaborador
-
-```text
-Correo: colaborador@demo.com
-Contraseña: CAMBIAR_POR_LA_CONTRASEÑA_DEMO
-```
-
-### Cliente
-
-```text
-Correo: cliente@demo.com
-Contraseña: CAMBIAR_POR_LA_CONTRASEÑA_DEMO
-```
-
-Las contraseñas guardadas en la base de datos deben encontrarse cifradas con bcrypt.
+Las funciones principales pueden probarse sin Cloudinary, Twilio, Gmail o Firebase.
 
 ---
 
-## 20. Pruebas con Postman
+## 26. Problemas frecuentes
 
-Para iniciar sesión como cliente:
+### `Access denied for user`
 
-```text
-POST http://localhost:3000/api/auth/cliente/login
-```
-
-Body JSON:
-
-```json
-{
-  "email": "cliente@demo.com",
-  "password": "CONTRASEÑA_DEMO"
-}
-```
-
-Para iniciar sesión como administrador:
-
-```text
-POST http://localhost:3000/api/admin-auth/login
-```
-
-Body JSON:
-
-```json
-{
-  "email": "administrador@demo.com",
-  "password": "CONTRASEÑA_DEMO"
-}
-```
-
-Para iniciar sesión como SuperAdmin:
-
-```text
-POST http://localhost:3000/api/superadmin-auth/login
-```
-
-Body JSON:
-
-```json
-{
-  "email": "superadmin@demo.com",
-  "password": "CONTRASEÑA_DEMO"
-}
-```
-
----
-
-## 21. Problemas frecuentes
-
-### Error de conexión con MySQL
-
-Ejemplo:
-
-```text
-Access denied for user
-```
-
-Revisar en `.env`:
+Revisar:
 
 ```env
 DB_USER=root
 DB_PASSWORD=CONTRASEÑA_CORRECTA
 ```
 
-### La base de datos no existe
-
-Ejemplo:
-
-```text
-Unknown database 'sistema_qr'
-```
+### `Unknown database 'sistema_qr'`
 
 Ejecutar:
 
 ```bash
 mysql -u root -p < sql/01_estructura.sql
+mysql -u root -p sistema_qr < sql/02_datos_demo.sql
 ```
 
-### El puerto 3000 está ocupado
+### Puerto 3000 ocupado
 
-Cambiar en `.env`:
+Cambiar:
 
 ```env
 PORT=3001
 ```
 
-Luego el backend estará disponible en:
+Con Docker, cambiar:
 
-```text
-http://localhost:3001
+```yaml
+ports:
+  - "3001:3000"
 ```
 
-### Firebase no está configurado
+### Puerto 3307 ocupado
 
-El backend puede mostrar:
+Cambiar en `docker-compose.yml`:
 
-```text
-Firebase desactivado
+```yaml
+ports:
+  - "3308:3306"
 ```
 
-Esto no impide probar las funciones principales.
+### Los datos demo no vuelven a cargarse con Docker
 
-Solo significa que las notificaciones push no se enviarán.
-
-### Twilio no está configurado
-
-El backend puede mostrar:
-
-```text
-WhatsApp omitido: Twilio no está configurado
-```
-
-La reserva seguirá guardándose normalmente.
-
-### Gmail no está configurado
-
-El backend puede mostrar:
-
-```text
-Correo omitido: Gmail no está configurado
-```
-
-La reserva seguirá funcionando, pero no se enviará correo.
-
-### Cloudinary no está configurado
-
-Las rutas de carga de imágenes devolverán:
-
-```json
-{
-  "error": "Cloudinary no está configurado en este entorno"
-}
-```
-
-El resto del backend continuará funcionando.
-
-### Error relacionado con `checkin.html`
-
-Verificar que exista:
-
-```text
-public/checkin.html
-```
-
-Y que en `.env` esté configurado:
-
-```env
-BASE_URL=http://localhost:3000
-```
-
----
-
-## 22. Reiniciar el servidor
-
-Cuando se modifica el archivo `.env`, se debe detener el servidor con:
-
-```text
-Ctrl + C
-```
-
-Después volver a ejecutarlo:
+MySQL conserva el volumen. Ejecutar:
 
 ```bash
-npm start
+docker compose down -v
+docker compose up -d --build
 ```
+
+### Firebase, Twilio, Gmail o Cloudinary no configurados
+
+El backend seguirá funcionando. Solo se omitirán esas integraciones.
+
+### El QR abre una página incorrecta
+
+Revisar `BASE_URL` y la ubicación real de `checkin.html`.
 
 ---
 
-## 23. Seguridad
+## 27. Seguridad
 
-No se deben subir a GitHub los siguientes archivos:
+No subir:
 
 ```text
 .env
 node_modules/
-archivos Firebase JSON
-credenciales privadas
-backups con datos reales
+archivos JSON de Firebase
+credenciales reales
+backups con datos personales
 claves de Cloudinary
 claves de Twilio
 contraseñas de Gmail
 ```
 
-El archivo `.gitignore` debe incluir:
+El `.gitignore` debe incluir:
 
 ```gitignore
 node_modules/
@@ -908,60 +962,48 @@ service-account*.json
 
 backup.sql
 inarigo_backup.sql
+inarigo_backup*.sql
 ```
 
-El archivo `.env.example` sí debe subirse porque no contiene credenciales reales.
+`01_estructura.sql`, `02_datos_demo.sql` y `.env.example` sí pueden subirse porque están preparados para demostración.
 
 ---
 
-## 24. Comandos resumidos
+## 28. Comandos resumidos
+
+### Sin Docker
 
 ```bash
-git clone URL_DEL_REPOSITORIO
-cd backend-inarigo
+git clone https://github.com/75141758aI/Sistema-Inarigo-Servicios-web.git
+cd Sistema-Inarigo-Servicios-web
 npm ci
-```
-
-Crear `.env`:
-
-```bash
 cp .env.example .env
-```
-
-Importar la base de datos:
-
-```bash
 mysql -u root -p < sql/01_estructura.sql
 mysql -u root -p sistema_qr < sql/02_datos_demo.sql
-```
-
-Iniciar el backend:
-
-```bash
 npm start
 ```
 
-Comprobar:
+En Windows PowerShell, reemplazar:
 
-```text
-http://localhost:3000
+```powershell
+Copy-Item .env.example .env
 ```
 
----
+### Con Docker
 
-## 25. Estado de los servicios locales
+```bash
+git clone https://github.com/75141758aI/Sistema-Inarigo-Servicios-web.git
+cd Sistema-Inarigo-Servicios-web
+docker compose up -d --build
+docker compose ps
+```
 
-| Servicio   | Obligatorio | Función              |
-| ---------- | ----------: | -------------------- |
-| MySQL      |          Sí | Almacena los datos   |
-| Node.js    |          Sí | Ejecuta el backend   |
-| JWT        |          Sí | Autenticación        |
-| Cloudinary |          No | Fotos y logos        |
-| Twilio     |          No | Mensajes de WhatsApp |
-| Gmail      |          No | Correos              |
-| Firebase   |          No | Notificaciones push  |
+Restablecer la base demo:
 
-Las funciones principales del backend pueden probarse sin configurar los servicios opcionales.
+```bash
+docker compose down -v
+docker compose up -d --build
+```
 
 ---
 
